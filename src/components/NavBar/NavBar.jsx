@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NavMenu from './NavMenu';
+import { Menu, SquareChevronUp } from 'lucide-react';
+
 const navigationMenu = [
     {
         name: "Home",
@@ -24,19 +26,36 @@ const navigationMenu = [
     {
         name: "Contact",
         path: "/contact",
-        id: 1
+        id: 5
     },
 ]
 
 const NavBar = () => {
+    const [dropdownMenu, setDropdownMenu] = useState(false) 
+    const menuBar = navigationMenu.map(menuRoute => <NavMenu key={menuRoute.id} menuRoute = {menuRoute}></NavMenu>)
     return (
-        <nav>
+        <nav className='flex justify-between mx-10 mt-10'> 
             {/* Dinamically made nav menu using another component */}
-            <ul className='flex'>
+            <span className='flex' onClick={() => setDropdownMenu(!dropdownMenu)}>
                 {
-                    navigationMenu.map(menuRoute => <NavMenu key={menuRoute.id} menuRoute = {menuRoute}></NavMenu>)
+                    dropdownMenu ? 
+                        <SquareChevronUp className='md:hidden'></SquareChevronUp> : 
+                        <Menu className='md:hidden'></Menu>
+                }
+                <ul className={`md:hidden absolute duration-1000 ${dropdownMenu ? 'top-7' : '-top-75' } bg-emerald-200 p-4 space-y-4`}>
+                    {
+                        menuBar
+                    }
+                </ul>
+                <h3 className='ml-2'>Nav Menu</h3>
+            </span>
+            <ul className='md:flex hidden'>
+                {
+                    menuBar
                 }
             </ul>
+
+            <button>Sign In</button>
 
             {/* Dinamically mad nav menu */}
             {/* <ul className='flex'>
